@@ -1,0 +1,15 @@
+{
+  "name": "stockbaki_website",
+  "version": "1.0.0",
+  "description": "Stockbaki Website UI Flow",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^12.12.0"
+  }
+}
