@@ -23,7 +23,7 @@ describe('The Home Page', () => {
       cy.get('#__BVID__96 > :nth-child(1) > .d-flex').contains('User').click();
       cy.get('#__BVID__96 > :nth-child(2) > .d-flex').contains('Roles').click();
       cy.get('#__BVID__96 > :nth-child(3) > .d-flex').contains('User Roles').click();
-      
+
       cy.get('.active > .d-flex').click();
       cy.get('.navigation > :nth-child(3) > [href="#"]').click();
       cy.wait(2000); // Wait for 2 seconds before interacting with the element
@@ -31,7 +31,19 @@ describe('The Home Page', () => {
       cy.get('#__BVID__109 > :nth-child(2) > .d-flex').contains('Customers').click();
       cy.get('#__BVID__109 > :nth-child(3) > .d-flex').contains('Customers Group').click();
       cy.get('#__BVID__109 > :nth-child(4) > .d-flex').contains('Customers Report').click();
+
+      cy.get('.active > .d-flex').click();
+      cy.get('.navigation > :nth-child(4) > [href="#"]').click();
       
+      cy.wait(2000); // Wait for 2 seconds before interacting with the element
+      cy.get('#__BVID__125 > :nth-child(1) > .d-flex').contains('Purchase Order Handle').click();
+      cy.get('#__BVID__125 > :nth-child(2) > .d-flex').contains('Purchase Order List').click();
+      cy.get('#__BVID__125 > :nth-child(3) > .d-flex').contains('Purchase Return Handle').click();
+      cy.get('#__BVID__125 > :nth-child(4) > .d-flex').contains('Purchase Return List').click();
+ 
+
+
+     
   })
   
 })
