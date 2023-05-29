@@ -14,6 +14,10 @@ describe('The Home Page', () => {
   it('successfully loads', () => {
     //cy.visit('https://stage.ayersfood.com/');
       cy.get('.d-xl-none > .nav-item > .nav-link').click({ force: true });
+       // Click on the cross icon to close the sidebar
+       cy.wait(2000);
+       cy.get('.nav-toggle').click(); // Replace with the actual selector for the cross icon
+
   })
 })
 
