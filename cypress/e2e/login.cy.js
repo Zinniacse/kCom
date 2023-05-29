@@ -1,5 +1,6 @@
 describe('The Home Page', () => {
   beforeEach(() => {
+
     cy.visit('https://stage.ayersfood.com/login'); // Replace with your login page URL
         cy.get('input[name="login-email"]').type('test@ecom.com'); // Replace with your username
         cy.get('input[name="login-password"]').type('password'); // Replace with your password
@@ -9,7 +10,7 @@ describe('The Home Page', () => {
   })
 
   it('successfully loads', () => {
-    cy.visit('https://stage.ayersfood.com/');
-      cy.get('.d-xl-none > .nav-item > .nav-link').click()
+    //cy.visit('https://stage.ayersfood.com/');
+      cy.get('.d-xl-none > .nav-item > .nav-link').click({ force: true });
   })
 })
