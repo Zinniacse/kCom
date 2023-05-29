@@ -1,3 +1,5 @@
+//const { it } = require("mocha");
+
 describe('The Home Page', () => {
   beforeEach(() => {
 
@@ -14,3 +16,4 @@ describe('The Home Page', () => {
       cy.get('.d-xl-none > .nav-item > .nav-link').click({ force: true });
   })
 })
+
