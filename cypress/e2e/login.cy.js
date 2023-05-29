@@ -34,15 +34,24 @@ describe('The Home Page', () => {
 
       cy.get('.active > .d-flex').click();
       cy.get('.navigation > :nth-child(4) > [href="#"]').click();
-      
+
       cy.wait(2000); // Wait for 2 seconds before interacting with the element
       cy.get('#__BVID__125 > :nth-child(1) > .d-flex').contains('Purchase Order Handle').click();
       cy.get('#__BVID__125 > :nth-child(2) > .d-flex').contains('Purchase Order List').click();
       cy.get('#__BVID__125 > :nth-child(3) > .d-flex').contains('Purchase Return Handle').click();
       cy.get('#__BVID__125 > :nth-child(4) > .d-flex').contains('Purchase Return List').click();
- 
 
 
+      cy.get('.active > .d-flex').click();
+      cy.get('.navigation > :nth-child(5) > [href="#"]').click();
+      cy.wait(2000); // Wait for 2 seconds before interacting with the element
+      cy.get('#__BVID__141 > :nth-child(1) > .d-flex').contains('Quotation Handle').click();
+      cy.get('#__BVID__141 > :nth-child(2) > .d-flex').contains('Quotation List').click();
+      cy.get('#__BVID__141 > :nth-child(3) > .d-flex').contains('Invoice Handle').click();
+      cy.get('#__BVID__141 > :nth-child(4) > .d-flex').contains('Invoice List').click();
+      cy.get('#__BVID__141 > :nth-child(5) > .d-flex').contains('Sale Return Handle').click();
+      cy.get('#__BVID__141 > :nth-child(6) > .d-flex').contains('Sale Return List').click();
+      cy.get('#__BVID__141 > :nth-child(7) > .d-flex').contains('Discount List').click();
      
   })
   
