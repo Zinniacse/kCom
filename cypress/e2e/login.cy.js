@@ -2,7 +2,7 @@
 
 describe('The Home Page', () => {
   beforeEach(() => {
-
+    cy.viewport(1327,882)
     cy.visit('https://stage.ayersfood.com/login'); // Replace with your login page URL
         cy.get('input[name="login-email"]').type('test@ecom.com'); // Replace with your username
         cy.get('input[name="login-password"]').type('password'); // Replace with your password
@@ -14,10 +14,12 @@ describe('The Home Page', () => {
   it('successfully loads', () => {
     //cy.visit('https://stage.ayersfood.com/');
       cy.get('.d-xl-none > .nav-item > .nav-link').click({ force: true });
-       // Click on the cross icon to close the sidebar
-       cy.wait(2000);
-       cy.get('.nav-toggle').click(); // Replace with the actual selector for the cross icon
+      //  // Click on the cross icon to close the sidebar
+      //  cy.wait(2000);
+      //  cy.get('.nav-toggle').click(); // Replace with the actual selector for the cross icon
+      cy.get('.active > .d-flex').click();
+      cy.get('.content-header-title').contains('Home');
 
   })
+  
 })
-
