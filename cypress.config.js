@@ -6,9 +6,6 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
 
-    "watchForFileChanges": true,
-    "baseUrl":"https://stockbaki.aritsltd.com/"
- 
   },
 
   
