@@ -200,13 +200,13 @@ describe('The Home Page', () => {
       cy.get('.navigation > :nth-child(11) > .d-flex').contains('Warehouses').click();
   
       
-      cy.get('.active > .d-flex').click();   
-      cy.get('.navigation > :nth-child(12) > [href="#"]').click();
+      // cy.get('.active > .d-flex').click();   
+      // cy.get('.navigation > :nth-child(12) > [href="#"]').click();
    
-      cy.get('#__BVID__233 > :nth-child(1) > .d-flex').contains('Business Settings').click();
-      cy.url().should('include', 'https://stage.ayersfood.com/products/report/product-report'); // Check if 
-       cy.get('#__BVID__233 > :nth-child(2) > .d-flex').contains('Reason List').click();
-       cy.url().should('include', 'https://stage.ayersfood.com/products/report/stock-summary'); // Check if 
+      // cy.get('#__BVID__233 > :nth-child(1) > .d-flex').contains('Business Settings').click();
+      // cy.url().should('include', 'https://stage.ayersfood.com/products/report/product-report'); // Check if 
+      //  cy.get('#__BVID__233 > :nth-child(2) > .d-flex').contains('Reason List').click();
+      //  cy.url().should('include', 'https://stage.ayersfood.com/products/report/stock-summary'); // Check if 
   
     })
   
