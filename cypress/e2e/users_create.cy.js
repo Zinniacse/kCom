@@ -21,22 +21,15 @@ describe('User login', () => {
   it('should be created successfully', () => {
 
     // Generate a random string to append to the base email
-  const randomString = Math.random().toString(36).substring(7);
-  // Base email address
-  const baseEmail = 'testinguser@test.com';
-  // Unique email by appending random string
-  const email = `${randomString}_${baseEmail}`;
-  // Generate unique values for each run
-  // const timestamp = new Date().getTime();
-  //const uniqueEmail = `testinguser${timestamp}@test.com`;
-  const baseName = "John";
-  const fullName = `${randomString}_${baseName}`;
-  const surname = "Doe";
-  //const surname = `${randomString}_${basesurName}`;
+    const randomString = Math.random().toString(36).substring(7);
+    // Base email address
+    const baseEmail = 'testinguser@test.com';
+    // Unique email by appending random string
+    const email = `${randomString}${baseEmail}`;
+    const baseName = "John";
+    const fullName = `${randomString}_${baseName}`;
+    const surname = "Doe";
 
-    //const fullName = 'testing';
-    //const surname = 'user';
-    //const email = 'testinguser@test.com';
     const selectedDate = '25';
     const mobileNumber = '01712343434';
     const phoneNumber = '01712343434';
@@ -116,15 +109,49 @@ describe('User login', () => {
     // Add user
     cy.contains('.btn-primary', 'Add').click();
     cy.wait(5000);
+    
+      //view the created user
+     
+      //search user 
+     cy.get('input[id^="__BVID__"]').type(fullName);
+
+     cy.get('#dropdown-right__BV_toggle_').click({ multiple: true } );
+ 
+     //click on view of dropdown
+     cy.get('#dropdown-right > .dropdown-menu > :nth-child(1) > .dropdown-item').eq(0).click();
+     cy.wait(3000);
+
+     // Click on user management
+    cy.contains(':nth-child(2) > [href="#"] > .menu-title', 'User Management').click();
+    cy.wait(3000);
+
+    // Click on users to browse the users list
+    cy.contains('.d-flex .menu-title', 'Users').click();
+    cy.wait(5000);
+
+
+    // Send verification email
 
     //search user 
-    cy.get('#__BVID__391').type(`${fullName}`);
+    cy.get('input[id^="__BVID__"]').type(`${fullName}`);
 
     cy.get('#dropdown-right__BV_toggle_').click({ multiple: true } );
 
-    //Edit user info
-    cy.get('#dropdown-right > .dropdown-menu > :nth-child(2) > .dropdown-item').eq(0).click();
+    //click on Send verification email
+    cy.get(':nth-child(5) > .dropdown-item').eq(0).click();
     cy.wait(3000);
+
+    cy.contains('.swal2-confirm', 'Yes, Send it!').click();
+
+
+      //search user 
+      cy.get('input[id^="__BVID__"]').type(`${fullName}`);
+
+      cy.get('#dropdown-right__BV_toggle_').click({ multiple: true } );
+  
+      //click on Edit user info
+      cy.get('#dropdown-right > .dropdown-menu > :nth-child(2) > .dropdown-item').eq(0).click();
+      cy.wait(3000);
 
     // fill up the form
     cy.get('#full-name').clear();
@@ -155,18 +182,44 @@ describe('User login', () => {
     //
     // cy.get('#mobile > .flex-1 > .input-tel > .input-tel__label')
     cy.get('[id^="mobile-"][id$="_phone_number"]').clear();
-cy.get('[id^="mobile-"][id$="_phone_number"]').type("01517800888");
+    cy.get('[id^="mobile-"][id$="_phone_number"]').type("01517800888");
 
     // cy.get('#edit-user-address-line-1').clear();
     // cy.get('#edit-user-address-line-1').type("Alam Nagar").eq(0).click();
     cy.contains('.col > .btn-primary ', "Save Changes").click();
+    cy.wait(5000);
 
-    // Click on user management
-    cy.contains(':nth-child(2) > [href="#"] > .menu-title', 'User Management').click();
+    // Deactivate user
+     // Click on user management
+     cy.contains(':nth-child(2) > [href="#"] > .menu-title', 'User Management').click();
+     cy.wait(3000);
+ 
+     // Click on users to browse the users list
+     cy.contains('.d-flex .menu-title', 'Users').click();
+
+    cy.get('input[id^="__BVID__"]').type(`${fullName}`);
+
+    cy.get('#dropdown-right__BV_toggle_').click({ multiple: true } );
+
+    //click on deactivate 
+    cy.get(':nth-child(6) > .dropdown-item').eq(0).click();
     cy.wait(3000);
 
-    // Click on users to browse the users list
-    cy.contains('.d-flex .menu-title', 'Users').click();
+    cy.contains('.swal2-confirm', 'Yes').click();
+    cy.wait(3000);
+
+    //Activate the user 
+    cy.get('#dropdown-right__BV_toggle_').click({ multiple: true } );
+
+    //click on deactivate 
+    cy.get(':nth-child(6) > .dropdown-item').eq(0).click();
+    cy.wait(3000);
+
+    cy.contains('.swal2-confirm', 'Yes').click();
+    cy.wait(3000);
+
+
+    //delete user
 
     cy.get('#dropdown-right__BV_toggle_').click({ multiple: true } );
 
@@ -175,6 +228,6 @@ cy.get('[id^="mobile-"][id$="_phone_number"]').type("01517800888");
     cy.get('.swal2-confirm').contains('Yes, delete it!').click();
 
 
-    // cy.contains('.btn .btn-primary', "Save Changes").click();
+
   });
 });
