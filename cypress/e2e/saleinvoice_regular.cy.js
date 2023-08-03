@@ -141,8 +141,20 @@ describe('User login', () => {
     cy.get('#vs6__combobox').click();
     selectSize();
 
-    // Click the add button
-    cy.get('.col-md-4 > .btn-primary').click();
+  // Select quantity
+  cy.get('#quantity').type('5'); // Update this line to type a desired quantity
+
+// Click on the "Add" button
+cy.get('.col-md-4 > .btn-primary').click();
+
+// // Wait for the new page to load (you can add a specific selector from the new page if available)
+// cy.url().should('include', 'https://stage.ayersfood.com/sale/invoice-handle');
+
+// // Click on the "Submit" button on the new page
+// cy.get('.offset-md-5 > .btn').click();
+
+// // Wait for the URL change to the expected page
+// cy.url().should('include', 'https://stage.ayersfood.com/sale/invoice-list');
 
 
   });
