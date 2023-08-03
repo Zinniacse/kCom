@@ -77,6 +77,12 @@ describe('User login', () => {
   }
 
   it('should be created successfully', () => {
+
+    // Clear local storage
+    cy.clearLocalStorage();
+
+    cy.clearAllCookies();
+
     // Generate a random string to append to the base email
     const randomStrings = Math.random().toString(36).substring(7);
     // Base email address
@@ -141,20 +147,33 @@ describe('User login', () => {
     cy.get('#vs6__combobox').click();
     selectSize();
 
-  // Select quantity
-  cy.get('#quantity').type('5'); // Update this line to type a desired quantity
+    // Select quantity and save its value using alias
+    const quantityValue = '5'; // Replace this with the desired quantity value
+    cy.get('#quantity').type(quantityValue).as('quantity');
 
-// Click on the "Add" button
-cy.get('.col-md-4 > .btn-primary').click();
+    // Save other input field values using aliases
+    const representativeValue = 'Representative Name'; // Replace this with the desired representative name value
+    cy.get('#representativeInput').type(representativeValue).as('representative');
 
-// // Wait for the new page to load (you can add a specific selector from the new page if available)
-// cy.url().should('include', 'https://stage.ayersfood.com/sale/invoice-handle');
+    const productValue = 'Product Name'; // Replace this with the desired product name value
+    cy.get('#productInput').type(productValue).as('product');
 
-// // Click on the "Submit" button on the new page
-// cy.get('.offset-md-5 > .btn').click();
 
-// // Wait for the URL change to the expected page
-// cy.url().should('include', 'https://stage.ayersfood.com/sale/invoice-list');
+    // Assert that all required input fields are saved correctly
+    cy.get('@quantity').should('have.value', quantityValue);
+    cy.get('@representative').should('have.value', representativeValue);
+    cy.get('@product').should('have.value', productValue);
+
+    // Assert that the delivery address dropdown has a selected value
+    cy.get('#vs3__combobox').should('not.have.class', 'vs--empty');
+
+    // Click on the "Add" button
+    cy.get('.col-md-4 > .btn-primary').click();
+
+    // Assert that the added data is not empty
+    cy.get('@quantity').should('not.have.value', '');
+    cy.get('@representative').should('not.have.value', '');
+    cy.get('@product').should('not.have.value', '');
 
 
   });
