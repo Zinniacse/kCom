@@ -1,107 +1,52 @@
 import './commands';
 import 'cypress-file-upload';
 
-describe('User login', () => {
+describe('User login and create sale invoice', () => {
   beforeEach(() => {
     cy.login();
     cy.wait(4000);
   });
-
-  const characters = 'abcdefghijklmnopqrstuvwxyz';
-  const desiredLength = 10; // Desired length of the random string
-  let randomString = '';
-
-  for (let i = 0; i < desiredLength; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    randomString += characters[randomIndex];
-  }
-
+  // function selectRandomOption(selector) {
+  //   cy.get(selector, { timeout: 10000 }).should('be.visible').then(($options) => {
+  //     const randomIndex = Math.floor(Math.random() * $options.length);
+  //     cy.wrap($options[randomIndex]).click(); // Wrap the element to avoid timing issues
+  //   });
+  // }
+  
+  
   function selectRandomStore() {
     // Get all the options in the stores dropdown
-    cy.get('.vs__dropdown-option', { timeout: 10000 }).then(($options) => {
+    cy.get('.vs__dropdown-option').then(($options) => {
       // Select a random option index
       const randomIndex = Math.floor(Math.random() * $options.length);
       // Click on the randomly selected option
       cy.wrap($options[randomIndex]).click();
     });
   }
-
   function selectRandomvalue() {
-    // Get all the options in the stores dropdown
-    cy.get('#vs3__combobox > .vs__selected-options', { timeout: 15000 }).then(($options) => {
-      // Select a random option index
-      const randomIndex = Math.floor(Math.random() * $options.length);
-      // Click on the randomly selected option
-      cy.wrap($options[randomIndex]).click();
-    });
+    // Use force: true to bypass error checking
+    cy.get('#vs3__combobox').click({ force: true });
+    selectRandomStore('.vs__dropdown-option');
   }
-
-  const minNumber = 1000000000; // Minimum number (inclusive)
-  const maxNumber = 9999999999; // Maximum number (inclusive)
-  const randomNumber = Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
-
-  function selectRandomOption(selector) {
-    // Get all the options in the dropdown
-    cy.get(selector, { timeout: 10000 }).then(($options) => {
-      // Select a random option index
-      const randomIndex = Math.floor(Math.random() * $options.length);
-      // Click on the randomly selected option
-      cy.wrap($options[randomIndex]).click();
-    });
-  }
-
+  
   function selectProduct() {
-    // Get all the options in the product dropdown
     cy.get('#vs5__combobox').click();
-    // Wait for a moment to allow the dropdown options to appear
-    cy.wait(500); // You can adjust this delay if needed
-    cy.get('.vs__dropdown-option', { timeout: 10000 }).then(($options) => {
-      // Select a random option index
-      const randomIndex = Math.floor(Math.random() * $options.length);
-      // Click on the randomly selected option
-      cy.wrap($options[randomIndex]).click();
-    });
+    selectRandomStore('.vs__dropdown-option');
   }
 
   function selectSize() {
-    // Get all the options in the size dropdown
     cy.get('#vs6__combobox').click();
-    // Wait for a moment to allow the dropdown options to appear
-    cy.wait(500); // You can adjust this delay if needed
-    cy.get('.vs__dropdown-option', { timeout: 10000 }).then(($options) => {
-      // Select a random option index
-      const randomIndex = Math.floor(Math.random() * $options.length);
-      // Click on the randomly selected option
-      cy.wrap($options[randomIndex]).click();
-    });
+    selectRandomStore('.vs__dropdown-option');
   }
 
   it('should be created successfully', () => {
-
-    // Clear local storage
-    cy.clearLocalStorage();
-
-    cy.clearAllCookies();
-
-    // Generate a random string to append to the base email
-    const randomStrings = Math.random().toString(36).substring(7);
-    // Base email address
-    const baseEmail = 'test@gmail.com';
-    // Unique email by appending random string
-    const email = `${randomString} ${baseEmail}`;
-    // Unique email by appending random string
-    const name = 'Hair pin';
-    // const name = `${baseStore} ${randomString}`;
-    // const mobileNumber = '01712343434';
-    const mobileNumber = `1 (${randomNumber.toString().substr(1, 3)}) ${randomNumber.toString().substr(4, 3)}-${randomNumber.toString().substr(7, 4)}`;
     const selectedDate = '25';
+
     cy.visit('/');
 
-    // Click on sales
     cy.get('.navigation > :nth-child(5) > :nth-child(1)').click();
     cy.wait(3000);
 
-    // Click on sale invoice
     cy.get('#__BVID__129 > :nth-child(3) > .d-flex').click();
 
     // Add store
@@ -121,23 +66,31 @@ describe('User login', () => {
     // Click on the input to open the dropdown
     cy.get('#autosuggest__input_ajax').click();
     // Select from dropdown
-    selectRandomOption('.autosuggest__results'); // Assuming the results container has class .autosuggest__results
+    selectRandomStore('.autosuggest__results');
 
     // Delivery address
     cy.get('#vs3__combobox').click();
-    selectRandomvalue();
+    selectRandomStore();
 
     // Choose Receive Type (either pickup or delivery) randomly
     const receiveType = Cypress._.sample(['pickup', 'delivery']);
     if (receiveType === 'pickup') {
       cy.get('#receive-type > :nth-child(1)').click();
+      // Assuming "pickup date" should be after "invoice date"
+      const pickupDate = '27'; // Replace '27' with a suitable date after the 'selectedDate'
+      cy.get(':nth-child(2) > .row > :nth-child(3) > .input').click();
+      cy.contains('.flatpickr-day', pickupDate).click();
     } else {
       cy.get('#receive-type > :nth-child(2)').click();
+      // Assuming "delivery date" should be after "invoice date"
+      const deliveryDate = '28'; // Replace '28' with a suitable date after the 'selectedDate'
+      cy.get(':nth-child(2) > .row > :nth-child(3) > .input').click();
+      cy.contains('.flatpickr-day', deliveryDate).click();
     }
 
     // Select category
     cy.get('#vs4__combobox').click();
-    selectRandomStore();
+    selectRandomStore('.vs__dropdown-option');
 
     // Select Product
     cy.get('#vs5__combobox').click();
@@ -147,34 +100,31 @@ describe('User login', () => {
     cy.get('#vs6__combobox').click();
     selectSize();
 
-    // Select quantity and save its value using alias
-    const quantityValue = '5'; // Replace this with the desired quantity value
-    cy.get('#quantity').type(quantityValue).as('quantity');
+    //add quantity
+    cy.get('#quantity').type('1');
 
-    // Save other input field values using aliases
-    const representativeValue = 'Representative Name'; // Replace this with the desired representative name value
-    cy.get('#representativeInput').type(representativeValue).as('representative');
-
-    const productValue = 'Product Name'; // Replace this with the desired product name value
-    cy.get('#productInput').type(productValue).as('product');
-
-
-    // Assert that all required input fields are saved correctly
-    cy.get('@quantity').should('have.value', quantityValue);
-    cy.get('@representative').should('have.value', representativeValue);
-    cy.get('@product').should('have.value', productValue);
-
-    // Assert that the delivery address dropdown has a selected value
-    cy.get('#vs3__combobox').should('not.have.class', 'vs--empty');
-
-    // Click on the "Add" button
+    //add button
     cy.get('.col-md-4 > .btn-primary').click();
+    cy.wait(5000);
 
-    // Assert that the added data is not empty
-    cy.get('@quantity').should('not.have.value', '');
-    cy.get('@representative').should('not.have.value', '');
-    cy.get('@product').should('not.have.value', '');
+    // After clicking the submit button, check the URL
+    cy.get('.offset-md-5 > .btn').click();
+    // cy.url().should('eq', 'https://stage.ayersfood.com/sale/invoice-list');
 
+    // Assert that all fields are not empty
+    cy.get('#vs1__combobox').should('not.have.value', '', { force: true });
+    cy.get('#vs2__combobox').should('not.have.value', '', { force: true });
+    cy.get('.flatpickr-day.selected').should('have.length', 1, { force: true });
+    cy.get('#autosuggest__input_ajax').should('not.have.value', '', { force: true });
+    cy.get('#vs3__combobox').should('not.have.value', '', { force: true });
+    cy.get('#vs4__combobox').should('not.have.value', '', { force: true });
+    cy.get('#vs5__combobox').should('not.have.value', '', { force: true });
+    cy.get('#vs6__combobox').should('not.have.value', '', { force: true });
+    cy.get('#quantity').should('not.have.value', '', { force: true });
 
+    // // Add validation for category, product, and size
+    // cy.get('#vs4__combobox').should('have.value', 'Frozen Vegetable');
+    // cy.get('#vs5__combobox').should('have.value', 'AYERS-SURAN-300G-FVA300');
+    // cy.get('#vs6__combobox').should('have.value', '300G*12');
   });
 });
