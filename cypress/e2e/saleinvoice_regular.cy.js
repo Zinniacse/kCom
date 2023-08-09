@@ -53,25 +53,16 @@ describe("User login and create sale invoice", () => {
     });
   };
   const selectDeliveryAddress = () => {
-    // Focus on the input inside the combobox to simulate a user's interaction
-    cy.get("#trading-delivery-address").focus().type(" "); // Typing a space or any character that might trigger the dropdown
-
-    // Wait to ensure that any animations or asynchronous loading are done
-    cy.wait(4000); // Adjust the wait time as needed
-
-    // Find the options within the dropdown, even if they are not visible, and click the first option
-    cy.get("#vs3__listbox li", { timeout: 10000 }).then(($options) => {
-      if ($options.length > 0) {
-        const selectedAddress = $options[0].textContent.trim();
-        cy.wrap($options[0]).click({ force: true });
-        console.log("Selected Address:", selectedAddress);
-        return selectedAddress;
-      } else {
-        throw new Error("No options found");
-      }
+    // // Click on the input field to trigger the dropdown
+    cy.get(".vs__dropdown-toggle").click({ multiple: true });
+    //cy.wait(50000);
+    cy.get(".vs__dropdown-menu", { timeout: 10000 }).then(($options) => {
+      // Select a random option index
+      console.log("options are ", $options);
+      const randomIndex = Math.floor(Math.random() * $options.length);
+      // Click on the randomly selected option
+      cy.wrap($options[0]).click();
     });
-
-    // Perform other actions or assertions as needed
   };
 
   it("should be created successfully", () => {
@@ -100,7 +91,7 @@ describe("User login and create sale invoice", () => {
     companySelect();
 
     // Delivery address
-    // selectDeliveryAddress();
+    selectDeliveryAddress();
 
     // Choose Receive Type (either pickup or delivery) randomly
     const receiveType = Cypress._.sample(["pickup", "delivery"]);
