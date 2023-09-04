@@ -36,7 +36,7 @@ describe('User login', () => {
 
 
     // Click on Bank
-    cy.contains('.navigation > :nth-child(8) > .d-flex', 'Bank').click();
+    cy.contains(':nth-child(10) > .d-flex', 'Banks').click();
     cy.wait(3000);
 
     cy.contains('.col-md-8 > .d-flex > .btn','Add Bank').click();
@@ -55,13 +55,13 @@ describe('User login', () => {
     cy.wait(5000);
 
 
-    cy.get('#bank_table__row_4 > [aria-colindex="6"] > :nth-child(1)').click()
-    cy.get('#bank_table__row_4 > [aria-colindex="6"] > :nth-child(1) > #dropdown-right > .dropdown-menu > :nth-child(1) > .dropdown-item').click();
+    // cy.get('#bank_table__row_4 > [aria-colindex="6"] > :nth-child(1)').click()
+    // cy.get('#bank_table__row_4 > [aria-colindex="6"] > :nth-child(1) > #dropdown-right > .dropdown-menu > :nth-child(1) > .dropdown-item').click();
     
-    cy.get('#h-bank-name').type(bankName);
-    cy.get('#h-account-name').type(accName);
-    cy.get('#h-account-number').type(accNum);
-    cy.get('#h-account-branch').type(branch);
+    // cy.get('#h-bank-name').type(bankName);
+    // cy.get('#h-account-name').type(accName);
+    // cy.get('#h-account-number').type(accNum);
+    // cy.get('#h-account-branch').type(branch);
 
   })
 

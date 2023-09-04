@@ -14,7 +14,15 @@ describe('User login', () => {
       cy.wrap($options[randomIndex]).click();
     });
   }
-
+  function selectRandom(selector) {
+    // Get all the options in the dropdown
+    cy.get(selector).then(($options) => {
+      // Select a random option index
+      const randomIndex = Math.floor(Math.random() * $options.length);
+      // Click on the randomly selected option
+      cy.wrap($options[randomIndex]).click();
+    });
+  }
   it('should create a Prepaid type customer successfully', () => {
     const paymentMethods = ['Prepaid'];
 
@@ -25,10 +33,10 @@ describe('User login', () => {
     cy.wait(3000);
 
     // Click on customer
-    cy.contains('#__BVID__90 > :nth-child(2) > .d-flex', 'Customer').click();
+    cy.contains('#__BVID__80 > :nth-child(2) > .d-flex', 'Customers').click();
 
     // Add Customer
-    cy.contains('.btn-primary', 'Add Customer').click();
+    cy.contains('.d-flex > .btn', 'Add Customer').click();
     cy.wait(5000);
 
     // Select a random payment method from paymentMethods array (only 'Prepaid' for this test)
@@ -52,7 +60,7 @@ describe('User login', () => {
 
     // Check the email and number checkboxes
     cy.get(':nth-child(2) > :nth-child(1) > .custom-control-label').click();
-    cy.get('#__BVID__621 > :nth-child(2) > :nth-child(2) > .custom-control-label').click();
+    cy.get('#__BVID__667 > :nth-child(2) > :nth-child(2) > .custom-control-label').click();
   
 
     // Click on next button
@@ -60,9 +68,12 @@ describe('User login', () => {
     cy.wait(5000);
 
     // Additional fields after clicking Next
-    cy.get('#director_name').type('Eleash');
+    cy.get("#autosuggest__input_ajax").click();
+    selectRandom(".autosuggest__results li");
+
+   // cy.get('#director_name').click();
     cy.get('#sur_name').type('Mridha');
-    cy.get('div > #email').type('director@test.com');
+
 
     // Pick the country code for phone
     cy.get('#phone .country-selector__label').click();
@@ -78,16 +89,17 @@ describe('User login', () => {
     // Contact Information
     cy.get('#add-customer-details-contact-name').type('Alice');
     cy.get('#add-customer-contact-details-role').type('HR');
-    //cy.get(':nth-child(2) > :nth-child(1) > .custom-control-label').click();
-    cy.get('#__BVID__678__BV_label_').click();
+    // cy.get(':nth-child(2) > :nth-child(1) > .custom-control-label').click();
+    // cy.get('#__BVID__678__BV_label_').click();
 
 
-    // Pick the country code for phone
-    cy.get('#add-customer-contact-details-mobile > .select-country-container > .country-selector >.country-selector__label').click();
-    cy.get('#add-customer-contact-details-mobile > .select-country-container > .country-selector > .country-selector__list > .vue-recycle-scroller > .vue-recycle-scroller__item-wrapper > [style="transform: translateY(0px);"] > .flex').click();
 
-    // Typing the phone number
-    cy.get('#add-customer-contact-details-mobile-679_phone_number').type('(02) 9876 5432');
+    // // Pick the country code for phone
+     cy.get('#add-customer-contact-details-mobile > .select-country-container > .country-selector >.country-selector__label').click();
+     cy.get('#add-customer-contact-details-mobile > .select-country-container > .country-selector > .country-selector__list > .vue-recycle-scroller > .vue-recycle-scroller__item-wrapper > [style="transform: translateY(0px);"] > .flex').click();
+
+    // // Typing the phone number
+    cy.get('#add-customer-contact-details-mobile-724_phone_number').type('(02) 9876 5432');
     cy.get('.wizard-footer-right > span > .wizard-btn').click();
 
 
@@ -97,6 +109,13 @@ describe('User login', () => {
     cy.get('[style="width: 518px; position: absolute; left: 856px; top: 394px;"] > :nth-child(1)').click();
     cy.get('span > #email').type('pran.co@gmail.com');
     cy.get('.wizard-footer-right > span > .wizard-btn').click();
-    
+
+    cy.get('.demo-inline-spacing > :nth-child(1) > .custom-control-label').click();
+
+      // Attachment
+      cy.get('.wizard-footer-right > span > .wizard-btn').click();
+
+      //submit button
+      cy.get('.wizard-footer-right > span > .wizard-btn').click();
   });
 });
