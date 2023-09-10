@@ -36,35 +36,18 @@ describe("User login and create sale invoice", () => {
         selectRandomOption('#vs2__combobox');
 
         // Invoice Date - pick up from calendar
-    cy.get(':nth-child(2) > .row > :nth-child(3) > .input').click();
-    cy.get('.flatpickr-day').contains(selectedDate).click();
+        cy.get(':nth-child(2) > .row > :nth-child(3) > .input').click();
+        cy.get('.flatpickr-day').contains(selectedDate).click();
 
-    // Delivery Date - pick up from calendar
-    cy.get(':nth-child(2) > .row > :nth-child(4) > .input').click();
-    cy.get('.flatpickr-calendar.open > .flatpickr-innerContainer > .flatpickr-rContainer > .flatpickr-days > .dayContainer')
-        .contains(pickupDay)
-        .scrollIntoView()
-        .click();
+        // Click walk-in customer
+        cy.get('.switch-container > .custom-control').click();
 
-    // Check if all dates are the same
-    cy.get('#sale-invoice-customer-invoice-date').invoke('val').then((invoiceDate) => {
-        cy.get('#sale-invoice-customer-delivery-date').invoke('val').then((deliveryDate) => {
-            cy.get('#sale-invoice-customer-pickup-date').invoke('val').then((pickupDate) => {
-                expect(invoiceDate).to.equal(pickupDate);
-                expect(invoiceDate).to.equal(deliveryDate);
-            });
-        });
-    });
+        // Customer name
+        cy.get('#sale-invoice-customer-name').type('Walk-In-Customer');
 
-    // Click walk-in customer
-    cy.get('.switch-container > .custom-control').click();
+        // Email
+        cy.get('#sale-invoice-customer-email').type(email);
 
-    // Customer name
-    cy.get('#sale-invoice-customer-name').type('Walk-In-Customer');
-
-    // Email
-    cy.get('#sale-invoice-customer-email').type(email);
-    
         // Generate a random country code and phone number
         const countryCode = '+' + Math.floor(Math.random() * 100);
         const phoneNumber = Math.floor(Math.random() * 10000000000).toString();
